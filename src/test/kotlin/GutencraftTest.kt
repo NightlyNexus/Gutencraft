@@ -13,4 +13,10 @@ class GutencraftTest {
     val result = pages(text)
     assertEquals(listOf("a", "a"), result)
   }
+
+  @Test fun lastPageDoesNotAddExtraPageWhenCompletelyFull() {
+    val text = ("a".repeat(19) + " ").repeat(13) + "a".repeat(19)
+    val result = pages(text)
+    assertEquals(listOf(("a".repeat(19) + " ").repeat(13) + "a".repeat(19)), result)
+  }
 }
