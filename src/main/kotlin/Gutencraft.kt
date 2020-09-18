@@ -23,6 +23,8 @@ fun pages(text: String): List<String> {
           line++
           column = columnCount
         }
+        val page = text.substring(pageStartIndex)
+        pages += page.trimEnd()
       } else if (column + columnCount == 57f) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor + word.length)
@@ -36,10 +38,10 @@ fun pages(text: String): List<String> {
         }
       } else {
         column += columnCount
+        val page = text.substring(pageStartIndex)
+        pages += page.trimEnd()
       }
       cursor += word.length
-      val page = text.substring(pageStartIndex)
-      pages += page.trimEnd()
       break
     }
     val word = text.substring(cursor, index)
