@@ -11,8 +11,7 @@ fun pages(text: String): List<String> {
       val columnCount = word.columnCount()
       if (columnCount > 57f) {
         TODO()
-      }
-      if (column + columnCount > 57f) {
+      } else if (column + columnCount > 57f) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor)
           pageStartIndex = cursor
@@ -46,11 +45,10 @@ fun pages(text: String): List<String> {
     }
     val word = text.substring(cursor, index)
     val columnCount = word.columnCount()
-    if (columnCount > 57f) {
-      TODO()
-    }
     if (text[index] == ' ') {
-      if (column + columnCount > 57f) {
+      if (columnCount > 57f) {
+        TODO()
+      } else if (column + columnCount > 57f) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor)
           pageStartIndex = cursor
@@ -77,7 +75,9 @@ fun pages(text: String): List<String> {
       }
       cursor += word.length + 1 // + 1 for whitespace.
     } else {
-      if (column + columnCount > 57f) {
+      if (columnCount > 57f) {
+        TODO()
+      } else if (column + columnCount > 57f) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor)
           pageStartIndex = cursor
