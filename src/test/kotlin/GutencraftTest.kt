@@ -25,6 +25,7 @@ class GutencraftTest {
     var text = "a".repeat(20)
     var result = pages(text)
     assertEquals(listOf("a".repeat(20)), result)
+
     text = "a".repeat(40)
     result = pages(text)
     assertEquals(listOf("a".repeat(40)), result)
@@ -34,6 +35,7 @@ class GutencraftTest {
     var text = "a " + "a".repeat(20)
     var result = pages(text)
     assertEquals(listOf("a " + "a".repeat(20)), result)
+
     text = "a " + "a".repeat(40)
     result = pages(text)
     assertEquals(listOf("a " + "a".repeat(40)), result)
@@ -52,8 +54,33 @@ class GutencraftTest {
     var text = "a".repeat(19 * 14)
     var result = pages(text)
     assertEquals(listOf("a".repeat(19 * 14)), result)
+
     text = "a".repeat(19 * 14) + "i"
     result = pages(text)
     assertEquals(listOf("a".repeat(19 * 14), "i"), result)
+  }
+
+  @Test fun overflowPageWithNewLine() {
+    var text = ("a".repeat(19) + " ").repeat(12) + "b".repeat(18) + " c\nd"
+    var result = pages(text)
+    assertEquals(listOf(("a".repeat(19) + " ").repeat(12) + "b".repeat(18) + " c", "d"), result)
+
+    text = ("a".repeat(19) + " ").repeat(13) + "b".repeat(19) + "\nc"
+    result = pages(text)
+    assertEquals(listOf(("a".repeat(19) + " ").repeat(13) + "b".repeat(19), "c"), result)
+
+    text = ("a".repeat(19) + " ").repeat(13) + "b".repeat(18) + "\nc"
+    result = pages(text)
+    assertEquals(listOf(("a".repeat(19) + " ").repeat(13) + "b".repeat(18), "c"), result)
+  }
+
+  @Test fun newLineInMiddleOfPage() {
+    var text = ("a".repeat(19) + "\nb")
+    var result = pages(text)
+    assertEquals(listOf("a".repeat(19) + "\nb"), result)
+
+    text = ("a".repeat(18) + "\nb")
+    result = pages(text)
+    assertEquals(listOf("a".repeat(18) + "\nb"), result)
   }
 }
