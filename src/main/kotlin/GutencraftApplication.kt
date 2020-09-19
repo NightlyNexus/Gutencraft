@@ -29,7 +29,8 @@ class GutencraftApplication : Application() {
     print.setOnAction {
       layout.children.remove(2, layout.children.size)
       val pages = pages(input.text)
-      for (page in pages) {
+      for (i in pages.indices) {
+        val page = pages[i]
         layout.children.add(Label(page).apply {
           background =
               Background(
@@ -40,7 +41,7 @@ class GutencraftApplication : Application() {
                   )
               )
         })
-        layout.children.add(Button("Copy").apply {
+        layout.children.add(Button("${i + 1}. Copy").apply {
           setOnAction {
             val clipboard = Clipboard.getSystemClipboard()
             val content = ClipboardContent()
