@@ -1,5 +1,5 @@
 plugins {
-  id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+  id 'org.jetbrains.kotlin.jvm' version '1.4.21'
   id 'java'
   id 'application'
   id 'org.openjfx.javafxplugin' version '0.0.8'
@@ -15,8 +15,8 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.10'
-  testImplementation 'org.jetbrains.kotlin:kotlin-test-junit:1.4.10'
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.21'
+  testImplementation 'org.jetbrains.kotlin:kotlin-test-junit:1.4.21'
 }
 
 javafx {
