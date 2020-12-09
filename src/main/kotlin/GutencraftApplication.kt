@@ -5,6 +5,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.ScrollPane
 import javafx.scene.control.TextArea
+import javafx.scene.image.Image
 import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
 import javafx.scene.layout.Background
@@ -21,6 +22,8 @@ fun main() {
 class GutencraftApplication : Application() {
   override fun start(primaryStage: Stage) {
     primaryStage.title = "Gutencraft"
+    primaryStage.icons += Image(
+        GutencraftApplication::class.java.getResourceAsStream("book and quill.png"))
     val scrollPane = ScrollPane()
     val layout = VBox(10.0)
     scrollPane.content = layout
