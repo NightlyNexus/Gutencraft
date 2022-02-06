@@ -83,4 +83,16 @@ class GutencraftTest {
     result = pages(text)
     assertEquals(listOf("a".repeat(18) + "\nb"), result)
   }
+
+  @Test fun pagesDoNotStartWithNewLines() {
+    val text = "\na"
+    val result = pages(text)
+    assertEquals(listOf("a"), result)
+  }
+
+  @Test fun newLineAfterWordOverflowsToNewPage() {
+    val text = "a\n".repeat(13) + "i".repeat(56) + " b\nc" + "\na".repeat(14)
+    val result = pages(text)
+    assertEquals(listOf("a\n".repeat(13) + "i".repeat(56), "b\nc" + "\na".repeat(12), "a\na"), result)
+  }
 }

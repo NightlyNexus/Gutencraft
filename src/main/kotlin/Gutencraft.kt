@@ -71,17 +71,20 @@ fun pages(text: String): List<String> {
           column = 0f
         }
       } else {
-        column += columnCount + 2 // + for whitespace.
+        column += columnCount + 2f // + for whitespace.
       }
       cursor += word.length + 1 // + 1 for whitespace.
     } else {
-      if (columnCount > 57f) {
+      if (column + columnCount == 0f && line == 1) {
+        // Remove new lines at the start of pages.
+        pageStartIndex += 1
+      } else if (columnCount > 57f) {
         TODO()
       } else if (column + columnCount > 57f) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor)
           pageStartIndex = cursor
-          line = 2
+          line = 2 // The word carries over onto next page and then has a new line, so we are now on line 2.
           column = 0f
           pages += page.trimEnd()
         } else if (line == 13) {
@@ -236,6 +239,12 @@ private fun Char.columnCount(): Float {
     // em dash.
     this == '—' -> {
       54 / 12f
+    }
+    this == 'Ñ' -> {
+      3f
+    }
+    this == 'ñ' -> {
+      3f
     }
     else -> {
       throw RuntimeException("Unhandled character $this")
