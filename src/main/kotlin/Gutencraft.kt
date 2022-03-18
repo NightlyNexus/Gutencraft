@@ -240,6 +240,9 @@ private fun Char.columnCount(): Float {
     this == '—' -> {
       54 / 12f
     }
+    this == '…' -> {
+      56 / 14f
+    }
     this == 'Ñ' -> {
       3f
     }
