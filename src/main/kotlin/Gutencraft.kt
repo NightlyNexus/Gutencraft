@@ -193,7 +193,13 @@ private fun Char.columnCount(): Float {
     this == '!' -> {
       1f
     }
+    this == '¡' -> {
+      1f
+    }
     this == '?' -> {
+      3f
+    }
+    this == '¿' -> {
       3f
     }
     this == ':' -> {
@@ -243,10 +249,46 @@ private fun Char.columnCount(): Float {
     this == '…' -> {
       56 / 14f
     }
+    this == 'Á' -> {
+      3f
+    }
+    this == 'á' -> {
+      3f
+    }
+    this == 'É' -> {
+      3f
+    }
+    this == 'é' -> {
+      3f
+    }
+    this == 'Í' -> {
+      2f
+    }
+    this == 'í' -> {
+      57 / 38f
+    }
+    this == 'Ó' -> {
+      3f
+    }
+    this == 'ó' -> {
+      3f
+    }
     this == 'Ñ' -> {
       3f
     }
     this == 'ñ' -> {
+      3f
+    }
+    this == 'Ú' -> {
+      3f
+    }
+    this == 'ú' -> {
+      3f
+    }
+    this == 'Ü' -> {
+      3f
+    }
+    this == 'ü' -> {
       3f
     }
     else -> {
