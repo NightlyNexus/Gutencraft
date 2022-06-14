@@ -1,7 +1,7 @@
 fun pages(text: String): List<String> {
   val pages = mutableListOf<String>()
   var line = 1
-  var column = 0f
+  var column = 0
   var cursor = 0
   var pageStartIndex = 0
   do {
@@ -9,9 +9,9 @@ fun pages(text: String): List<String> {
     if (index == -1) {
       val word = text.substring(cursor)
       val columnCount = word.columnCount()
-      if (columnCount > 57f) {
+      if (columnCount > lineWidth) {
         TODO()
-      } else if (column + columnCount > 57f) {
+      } else if (column + columnCount > lineWidth) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor)
           pageStartIndex = cursor
@@ -24,16 +24,16 @@ fun pages(text: String): List<String> {
         }
         val page = text.substring(pageStartIndex)
         pages += page.trimEnd()
-      } else if (column + columnCount == 57f) {
+      } else if (column + columnCount == lineWidth) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor + word.length)
           pageStartIndex = cursor + word.length
           line = 1
-          column = 0f
+          column = 0
           pages += page.trimEnd()
         } else {
           line++
-          column = 0f
+          column = 0
         }
       } else {
         column += columnCount
@@ -46,78 +46,78 @@ fun pages(text: String): List<String> {
     val word = text.substring(cursor, index)
     val columnCount = word.columnCount()
     if (text[index] == ' ') {
-      if (columnCount > 57f) {
+      if (columnCount > lineWidth) {
         TODO()
-      } else if (column + columnCount > 57f) {
+      } else if (column + columnCount > lineWidth) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor)
           pageStartIndex = cursor
           line = 1
-          column = columnCount + 2f // + for whitespace.
+          column = columnCount + spaceWidth // + for whitespace.
           pages += page.trimEnd()
         } else {
           line++
-          column = columnCount + 2f // + for whitespace.
+          column = columnCount + spaceWidth // + for whitespace.
         }
-      } else if (column + columnCount == 57f) {
+      } else if (column + columnCount == lineWidth) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor + word.length + 1)
           pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
           line = 1
-          column = 0f
+          column = 0
           pages += page.trimEnd()
         } else {
           line++
-          column = 0f
+          column = 0
         }
       } else {
-        column += columnCount + 2f // + for whitespace.
+        column += columnCount + spaceWidth // + for whitespace.
       }
       cursor += word.length + 1 // + 1 for whitespace.
     } else {
-      if (column + columnCount == 0f && line == 1) {
+      if (column + columnCount == 0 && line == 1) {
         // Remove new lines at the start of pages.
         pageStartIndex += 1
-      } else if (columnCount > 57f) {
+      } else if (columnCount > lineWidth) {
         TODO()
-      } else if (column + columnCount > 57f) {
+      } else if (column + columnCount > lineWidth) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor)
           pageStartIndex = cursor
           line = 2 // The word carries over onto next page and then has a new line, so we are now on line 2.
-          column = 0f
+          column = 0
           pages += page.trimEnd()
         } else if (line == 13) {
           val page = text.substring(pageStartIndex, cursor + word.length + 1)
           pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
           line = 1
-          column = 0f
+          column = 0
           pages += page.trimEnd()
         } else {
           line += 2
-          column = 0f
+          column = 0
         }
-      } else if (column + columnCount == 57f) {
+      } else if (column + columnCount == lineWidth) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor + word.length + 1)
           pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
           line = 1
-          column = 0f
+          column = 0
           pages += page.trimEnd()
         } else {
           line++
-          column = 0f
+          column = 0
         }
       } else {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor + word.length + 1)
           pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
           line = 1
-          column = 0f
+          column = 0
           pages += page.trimEnd()
         } else {
           line++
-          column = 0f
+          column = 0
         }
       }
       cursor += word.length + 1 // + 1 for whitespace.
@@ -126,170 +126,239 @@ fun pages(text: String): List<String> {
   return pages
 }
 
-private fun String.columnCount(): Float {
-  var sum = 0f
+private const val lineWidth = 114
+private const val spaceWidth = 4
+
+private fun String.columnCount(): Int {
+  var sum = 0
   for (c in this) {
     sum += c.columnCount()
   }
   return sum
 }
 
-private fun Char.columnCount(): Float {
+private fun Char.columnCount(): Int {
   return when {
     this in 'a'..'e' -> {
-      3f
+      6
     }
     this == 'f' -> {
-      55 / 22f
+      5
     }
     this in 'g'..'h' -> {
-      3f
+      6
     }
     this == 'i' -> {
-      1f
+      2
     }
     this == 'j' -> {
-      3f
+      6
     }
     this == 'k' -> {
-      55 / 22f
+      5
     }
     this == 'l' -> {
-      57 / 38f
+      3
     }
     this in 'm'..'s' -> {
-      3f
+      6
     }
     this == 't' -> {
-      2f
+      4
     }
     this in 'u'..'z' -> {
-      3f
+      6
     }
     this in 'A'..'H' -> {
-      3f
+      6
     }
     this == 'I' -> {
-      2f
+      4
     }
     this in 'J'..'Z' -> {
-      3f
+      6
     }
     this in '0'..'9' -> {
-      3f
+      6
     }
     this == '\'' -> {
-      1f
+      2
     }
     this == '"' -> {
-      2f
+      4
     }
     this == '.' -> {
-      1f
+      2
     }
     this == ',' -> {
-      1f
+      2
     }
     this == '!' -> {
-      1f
+      2
     }
     this == '¡' -> {
-      1f
+      2
     }
     this == '?' -> {
-      3f
+      6
     }
     this == '¿' -> {
-      3f
+      6
+    }
+    this == '&' -> {
+      6
+    }
+    this == '@' -> {
+      7
+    }
+    this == '#' -> {
+      6
+    }
+    this == '$' -> {
+      6
+    }
+    this == '%' -> {
+      6
+    }
+    this == '^' -> {
+      6
     }
     this == ':' -> {
-      1f
+      2
     }
     this == ';' -> {
-      1f
+      2
     }
     this == '(' -> {
-      2f
+      4
     }
     this == ')' -> {
-      2f
+      4
     }
     this == '[' -> {
-      2f
+      4
     }
     this == ']' -> {
-      2f
+      4
+    }
+    this == '/' -> {
+      6
+    }
+    this == '\\' -> {
+      6
     }
     this == '‘' -> {
-      57 / 38f
+      3
     }
     this == '’' -> {
-      57 / 38f
+      3
     }
     this == '“' -> {
-      55 / 22f
+      5
     }
     this == '”' -> {
-      55 / 22f
+      5
+    }
+    this == '<' -> {
+      5
+    }
+    this == '>' -> {
+      5
     }
     this == '*' -> {
-      2f
+      4
+    }
+    this == '+' -> {
+      6
+    }
+    this == '=' -> {
+      6
+    }
+    this == '_' -> {
+      6
     }
     this == '-' -> {
-      3f
+      6
     }
     // en dash.
     this == '–' -> {
-      56 / 16f
+      7
     }
     // em dash.
     this == '—' -> {
-      54 / 12f
+      9
     }
     this == '…' -> {
-      56 / 14f
+      8
     }
     this == 'Á' -> {
-      3f
+      6
     }
     this == 'á' -> {
-      3f
+      6
     }
     this == 'É' -> {
-      3f
+      6
     }
     this == 'é' -> {
-      3f
+      6
     }
     this == 'Í' -> {
-      2f
+      4
     }
     this == 'í' -> {
-      57 / 38f
+      3
     }
     this == 'Ó' -> {
-      3f
+      6
     }
     this == 'ó' -> {
-      3f
+      6
     }
     this == 'Ñ' -> {
-      3f
+      6
     }
     this == 'ñ' -> {
-      3f
+      6
     }
     this == 'Ú' -> {
-      3f
+      6
     }
     this == 'ú' -> {
-      3f
+      6
     }
     this == 'Ü' -> {
-      3f
+      6
     }
     this == 'ü' -> {
-      3f
+      6
+    }
+    this == '~' -> {
+      7
+    }
+    this == '«' -> {
+      7
+    }
+    this == '»' -> {
+      7
+    }
+    this == '©' -> {
+      8
+    }
+    this == '®' -> {
+      8
+    }
+    this == 'ø' -> {
+      6
+    }
+    this == '£' -> {
+      6
+    }
+    this == '¢' -> {
+      6
+    }
+    this == 'Ø' -> {
+      6
     }
     else -> {
       throw RuntimeException("Unhandled character $this")
