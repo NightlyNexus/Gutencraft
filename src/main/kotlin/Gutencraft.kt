@@ -126,8 +126,24 @@ fun pages(text: String): List<String> {
   return pages
 }
 
+fun Int.isSupportedCharacter(): Boolean {
+  return this == ' '.toInt() || columnCountInternal() != -1
+}
+
+class UnsupportedCharacterException(val character: Int): Exception()
+
 private const val lineWidth = 114
 private const val spaceWidth = 4
+
+private operator fun String.iterator(): IntIterator = object : IntIterator() {
+  private var index = 0
+
+  override fun nextInt() = codePointAt(index).also {
+    index += Character.charCount(it)
+  }
+
+  override fun hasNext(): Boolean = index < length
+}
 
 private fun String.columnCount(): Int {
   var sum = 0
@@ -137,231 +153,239 @@ private fun String.columnCount(): Int {
   return sum
 }
 
-private fun Char.columnCount(): Int {
+private fun Int.columnCount(): Int {
+  return columnCountInternal().also {
+    if (it == -1) {
+      throw UnsupportedCharacterException(this)
+    }
+  }
+}
+
+private fun Int.columnCountInternal(): Int {
   return when {
-    this in 'a'..'e' -> {
+    this in 'a'.toInt()..'e'.toInt() -> {
       6
     }
-    this == 'f' -> {
+    this == 'f'.toInt() -> {
       5
     }
-    this in 'g'..'h' -> {
+    this in 'g'.toInt()..'h'.toInt() -> {
       6
     }
-    this == 'i' -> {
+    this == 'i'.toInt() -> {
       2
     }
-    this == 'j' -> {
+    this == 'j'.toInt() -> {
       6
     }
-    this == 'k' -> {
+    this == 'k'.toInt() -> {
       5
     }
-    this == 'l' -> {
+    this == 'l'.toInt() -> {
       3
     }
-    this in 'm'..'s' -> {
+    this in 'm'.toInt()..'s'.toInt() -> {
       6
     }
-    this == 't' -> {
+    this == 't'.toInt() -> {
       4
     }
-    this in 'u'..'z' -> {
+    this in 'u'.toInt()..'z'.toInt() -> {
       6
     }
-    this in 'A'..'H' -> {
+    this in 'A'.toInt()..'H'.toInt() -> {
       6
     }
-    this == 'I' -> {
+    this == 'I'.toInt() -> {
       4
     }
-    this in 'J'..'Z' -> {
+    this in 'J'.toInt()..'Z'.toInt() -> {
       6
     }
-    this in '0'..'9' -> {
+    this in '0'.toInt()..'9'.toInt() -> {
       6
     }
-    this == '\'' -> {
+    this == '\''.toInt() -> {
       2
     }
-    this == '"' -> {
+    this == '"'.toInt() -> {
       4
     }
-    this == '.' -> {
+    this == '.'.toInt() -> {
       2
     }
-    this == ',' -> {
+    this == ','.toInt() -> {
       2
     }
-    this == '!' -> {
+    this == '!'.toInt() -> {
       2
     }
-    this == '¡' -> {
+    this == '¡'.toInt() -> {
       2
     }
-    this == '?' -> {
+    this == '?'.toInt() -> {
       6
     }
-    this == '¿' -> {
+    this == '¿'.toInt() -> {
       6
     }
-    this == '&' -> {
+    this == '&'.toInt() -> {
       6
     }
-    this == '@' -> {
+    this == '@'.toInt() -> {
       7
     }
-    this == '#' -> {
+    this == '#'.toInt() -> {
       6
     }
-    this == '$' -> {
+    this == '$'.toInt() -> {
       6
     }
-    this == '%' -> {
+    this == '%'.toInt() -> {
       6
     }
-    this == '^' -> {
+    this == '^'.toInt() -> {
       6
     }
-    this == ':' -> {
+    this == ':'.toInt() -> {
       2
     }
-    this == ';' -> {
+    this == ';'.toInt() -> {
       2
     }
-    this == '(' -> {
+    this == '('.toInt() -> {
       4
     }
-    this == ')' -> {
+    this == ')'.toInt() -> {
       4
     }
-    this == '[' -> {
+    this == '['.toInt() -> {
       4
     }
-    this == ']' -> {
+    this == ']'.toInt() -> {
       4
     }
-    this == '/' -> {
+    this == '/'.toInt() -> {
       6
     }
-    this == '\\' -> {
+    this == '\\'.toInt() -> {
       6
     }
-    this == '‘' -> {
+    this == '‘'.toInt() -> {
       3
     }
-    this == '’' -> {
+    this == '’'.toInt() -> {
       3
     }
-    this == '“' -> {
+    this == '“'.toInt() -> {
       5
     }
-    this == '”' -> {
+    this == '”'.toInt() -> {
       5
     }
-    this == '<' -> {
+    this == '<'.toInt() -> {
       5
     }
-    this == '>' -> {
+    this == '>'.toInt() -> {
       5
     }
-    this == '*' -> {
+    this == '*'.toInt() -> {
       4
     }
-    this == '+' -> {
+    this == '+'.toInt() -> {
       6
     }
-    this == '=' -> {
+    this == '='.toInt() -> {
       6
     }
-    this == '_' -> {
+    this == '_'.toInt() -> {
       6
     }
-    this == '-' -> {
+    this == '-'.toInt() -> {
       6
     }
     // en dash.
-    this == '–' -> {
+    this == '–'.toInt() -> {
       7
     }
     // em dash.
-    this == '—' -> {
+    this == '—'.toInt() -> {
       9
     }
-    this == '…' -> {
+    this == '…'.toInt() -> {
       8
     }
-    this == 'Á' -> {
+    this == 'Á'.toInt() -> {
       6
     }
-    this == 'á' -> {
+    this == 'á'.toInt() -> {
       6
     }
-    this == 'É' -> {
+    this == 'É'.toInt() -> {
       6
     }
-    this == 'é' -> {
+    this == 'é'.toInt() -> {
       6
     }
-    this == 'Í' -> {
+    this == 'Í'.toInt() -> {
       4
     }
-    this == 'í' -> {
+    this == 'í'.toInt() -> {
       3
     }
-    this == 'Ó' -> {
+    this == 'Ó'.toInt() -> {
       6
     }
-    this == 'ó' -> {
+    this == 'ó'.toInt() -> {
       6
     }
-    this == 'Ñ' -> {
+    this == 'Ñ'.toInt() -> {
       6
     }
-    this == 'ñ' -> {
+    this == 'ñ'.toInt() -> {
       6
     }
-    this == 'Ú' -> {
+    this == 'Ú'.toInt() -> {
       6
     }
-    this == 'ú' -> {
+    this == 'ú'.toInt() -> {
       6
     }
-    this == 'Ü' -> {
+    this == 'Ü'.toInt() -> {
       6
     }
-    this == 'ü' -> {
+    this == 'ü'.toInt() -> {
       6
     }
-    this == '~' -> {
+    this == '~'.toInt() -> {
       7
     }
-    this == '«' -> {
+    this == '«'.toInt() -> {
       7
     }
-    this == '»' -> {
+    this == '»'.toInt() -> {
       7
     }
-    this == '©' -> {
+    this == '©'.toInt() -> {
       8
     }
-    this == '®' -> {
+    this == '®'.toInt() -> {
       8
     }
-    this == 'ø' -> {
+    this == 'ø'.toInt() -> {
       6
     }
-    this == '£' -> {
+    this == '£'.toInt() -> {
       6
     }
-    this == '¢' -> {
+    this == '¢'.toInt() -> {
       6
     }
-    this == 'Ø' -> {
+    this == 'Ø'.toInt() -> {
       6
     }
     else -> {
-      throw RuntimeException("Unhandled character $this")
+      -1
     }
   }
 }

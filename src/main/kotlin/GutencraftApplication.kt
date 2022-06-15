@@ -31,7 +31,17 @@ class GutencraftApplication : Application() {
     val print = Button("Print")
     print.setOnAction {
       layout.children.remove(2, layout.children.size)
-      val pages = pages(input.text)
+      val inputText = input.text
+      val pages: List<String>
+      try {
+        pages = pages(inputText)
+      } catch (e: UnsupportedCharacterException) {
+        val errorMessage = errorMessage(inputText)
+        val errorLabel = Label(errorMessage)
+        errorLabel.textFill = Color.color(1.0, 0.0, 0.0)
+        layout.children.add(errorLabel)
+        return@setOnAction
+      }
       for (i in pages.indices) {
         val page = pages[i]
         layout.children.add(Label(page).apply {
@@ -58,5 +68,42 @@ class GutencraftApplication : Application() {
     layout.children.add(print)
     primaryStage.scene = Scene(scrollPane, 600.0, 300.0)
     primaryStage.show()
+  }
+
+  private fun errorMessage(text: String): String {
+    val unsupportedCharacters = LinkedHashSet<Int>()
+    for (character in text) {
+      if (!character.isSupportedCharacter()) {
+        unsupportedCharacters += character
+      }
+    }
+    val unsupportedCharactersSize = unsupportedCharacters.size
+    return if (unsupportedCharactersSize == 1) {
+      "Unsupported character (if Minecraft supports this character please email me at eric@nightlynexus.com):\n${unsupportedCharacters.first().codePointToString()}"
+    } else {
+      val errorMessagePrefix = "Unsupported characters (if Minecraft supports any of these characters please email me at eric@nightlynexus.com):"
+      val errorMessage = StringBuilder(errorMessagePrefix.length + unsupportedCharactersSize * 2)
+        .append(errorMessagePrefix)
+      for (unsupportedCharacter in unsupportedCharacters) {
+        errorMessage
+          .append('\n')
+          .append(unsupportedCharacter.codePointToString())
+      }
+      errorMessage.toString()
+    }
+  }
+
+  private fun Int.codePointToString(): String {
+    return String(IntArray(1) { this }, 0, 1)
+  }
+
+  private operator fun String.iterator(): IntIterator = object : IntIterator() {
+    private var index = 0
+
+    override fun nextInt() = codePointAt(index).also {
+      index += Character.charCount(it)
+    }
+
+    override fun hasNext(): Boolean = index < length
   }
 }
