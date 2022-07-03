@@ -34,6 +34,8 @@ fun pages(text: String): List<String> {
         } else {
           line++
           column = 0
+          val page = text.substring(pageStartIndex)
+          pages += page.trimEnd()
         }
       } else {
         column += columnCount

@@ -15,6 +15,16 @@ class GutencraftTest {
     assertEquals(listOf("a", "a"), result)
   }
 
+  @Test fun fullLine() {
+    var text = "i".repeat(57)
+    var result = pages(text)
+    assertEquals(listOf("i".repeat(57)), result)
+
+    text = "${"i".repeat(57)} ${"i".repeat(57)} "
+    result = pages(text)
+    assertEquals(listOf("${"i".repeat(57)} ${"i".repeat(57)}"), result)
+  }
+
   @Test fun lastPageDoesNotAddExtraPageWhenCompletelyFull() {
     val text = ("a".repeat(19) + " ").repeat(13) + "a".repeat(19)
     val result = pages(text)
@@ -45,8 +55,8 @@ class GutencraftTest {
     val text = "a".repeat(19 * 11 + 10) + " " + "a".repeat(19 * 11 + 10)
     val result = pages(text)
     assertEquals(listOf(
-        "a".repeat(19 * 11 + 10) + " " + "a".repeat(19 * 2),
-        "a".repeat(19 * 9 + 10)
+      "a".repeat(19 * 11 + 10) + " " + "a".repeat(19 * 2),
+      "a".repeat(19 * 9 + 10)
     ), result)
   }
 
