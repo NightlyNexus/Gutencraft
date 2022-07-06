@@ -8,10 +8,49 @@ fun pages(text: String): List<String> {
     val index = text.indexOfAny(whitespace, cursor)
     if (index == -1) {
       val word = text.substring(cursor)
-      val columnCount = word.columnCount()
-      if (columnCount > lineWidth) {
-        TODO()
-      } else if (column + columnCount > lineWidth) {
+      var sum = 0
+      var wordIndex = 0
+      var wordOverflowsLine = false
+      while (wordIndex < word.length) {
+        val codePoint = word.codePointAt(wordIndex)
+        val codePointColumnCount = codePoint.columnCount()
+        val nextSum = sum + codePointColumnCount
+        if (nextSum > lineWidth) {
+          if (!wordOverflowsLine) {
+            wordOverflowsLine = true
+            if (column > 0) {
+              if (line == 14) {
+                val pageEndIndex = cursor
+                val page = text.substring(pageStartIndex, pageEndIndex)
+                pageStartIndex = pageEndIndex
+                line = 1
+                column = 0
+                pages += page
+              } else {
+                line++
+                column = 0
+              }
+            }
+          }
+          if (line == 14) {
+            val pageEndIndex = cursor + wordIndex
+            val page = text.substring(pageStartIndex, pageEndIndex)
+            pageStartIndex = pageEndIndex
+            line = 1
+            column = 0
+            pages += page
+          } else {
+            line++
+            column = 0
+          }
+          sum = codePointColumnCount
+        } else {
+          sum = nextSum
+        }
+        wordIndex += Character.charCount(codePoint)
+      }
+      val columnCount = sum
+      if (column + columnCount > lineWidth) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor)
           pageStartIndex = cursor
@@ -46,11 +85,50 @@ fun pages(text: String): List<String> {
       break
     }
     val word = text.substring(cursor, index)
-    val columnCount = word.columnCount()
+    var sum = 0
+    var wordIndex = 0
+    var wordOverflowsLine = false
+    while (wordIndex < word.length) {
+      val codePoint = word.codePointAt(wordIndex)
+      val codePointColumnCount = codePoint.columnCount()
+      val nextSum = sum + codePointColumnCount
+      if (nextSum > lineWidth) {
+        if (!wordOverflowsLine) {
+          wordOverflowsLine = true
+          if (column > 0) {
+            if (line == 14) {
+              val pageEndIndex = cursor
+              val page = text.substring(pageStartIndex, pageEndIndex)
+              pageStartIndex = pageEndIndex
+              line = 1
+              column = 0
+              pages += page
+            } else {
+              line++
+              column = 0
+            }
+          }
+        }
+        if (line == 14) {
+          val pageEndIndex = cursor + wordIndex
+          val page = text.substring(pageStartIndex, pageEndIndex)
+          pageStartIndex = pageEndIndex
+          line = 1
+          column = 0
+          pages += page
+        } else {
+          line++
+          column = 0
+        }
+        sum = codePointColumnCount
+      } else {
+        sum = nextSum
+      }
+      wordIndex += Character.charCount(codePoint)
+    }
+    val columnCount = sum
     if (text[index] == ' ') {
-      if (columnCount > lineWidth) {
-        TODO()
-      } else if (column + columnCount > lineWidth) {
+      if (column + columnCount > lineWidth) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor)
           pageStartIndex = cursor
@@ -80,8 +158,6 @@ fun pages(text: String): List<String> {
       if (column + columnCount == 0 && line == 1) {
         // Remove new lines at the start of pages.
         pageStartIndex += 1
-      } else if (columnCount > lineWidth) {
-        TODO()
       } else if (column + columnCount > lineWidth) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor)
@@ -136,24 +212,6 @@ class UnsupportedCharacterException(val character: Int): Exception()
 
 private const val lineWidth = 114
 private const val spaceWidth = 4
-
-private operator fun String.iterator(): IntIterator = object : IntIterator() {
-  private var index = 0
-
-  override fun nextInt() = codePointAt(index).also {
-    index += Character.charCount(it)
-  }
-
-  override fun hasNext(): Boolean = index < length
-}
-
-private fun String.columnCount(): Int {
-  var sum = 0
-  for (c in this) {
-    sum += c.columnCount()
-  }
-  return sum
-}
 
 private fun Int.columnCount(): Int {
   return columnCountInternal().also {
@@ -392,4 +450,4 @@ private fun Int.columnCountInternal(): Int {
   }
 }
 
-private val whitespace = listOf(" ", "\n")
+private val whitespace = charArrayOf(' ', '\n')
