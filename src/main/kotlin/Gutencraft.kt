@@ -56,30 +56,50 @@ fun pages(text: String): List<String> {
           pageStartIndex = cursor
           line = 1
           column = columnCount
-          pages += page.trimEnd()
+          page.trimEnd().let {
+            if (it.isNotEmpty()) {
+              pages += page.trimEnd()
+            }
+          }
         } else {
           line++
           column = columnCount
         }
         val page = text.substring(pageStartIndex)
-        pages += page.trimEnd()
+        page.trimEnd().let {
+          if (it.isNotEmpty()) {
+            pages += page.trimEnd()
+          }
+        }
       } else if (column + columnCount == lineWidth) {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor + word.length)
           pageStartIndex = cursor + word.length
           line = 1
           column = 0
-          pages += page.trimEnd()
+          page.trimEnd().let {
+            if (it.isNotEmpty()) {
+              pages += page.trimEnd()
+            }
+          }
         } else {
           line++
           column = 0
           val page = text.substring(pageStartIndex)
-          pages += page.trimEnd()
+          page.trimEnd().let {
+            if (it.isNotEmpty()) {
+              pages += page.trimEnd()
+            }
+          }
         }
       } else {
         column += columnCount
         val page = text.substring(pageStartIndex)
-        pages += page.trimEnd()
+        page.trimEnd().let {
+          if (it.isNotEmpty()) {
+            pages += page.trimEnd()
+          }
+        }
       }
       cursor += word.length
       break
@@ -134,7 +154,11 @@ fun pages(text: String): List<String> {
           pageStartIndex = cursor
           line = 1
           column = columnCount + spaceWidth // + for whitespace.
-          pages += page.trimEnd()
+          page.trimEnd().let {
+            if (it.isNotEmpty()) {
+              pages += page.trimEnd()
+            }
+          }
         } else {
           line++
           column = columnCount + spaceWidth // + for whitespace.
@@ -145,7 +169,11 @@ fun pages(text: String): List<String> {
           pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
           line = 1
           column = 0
-          pages += page.trimEnd()
+          page.trimEnd().let {
+            if (it.isNotEmpty()) {
+              pages += page.trimEnd()
+            }
+          }
         } else {
           line++
           column = 0
@@ -164,13 +192,21 @@ fun pages(text: String): List<String> {
           pageStartIndex = cursor
           line = 2 // The word carries over onto next page and then has a new line, so we are now on line 2.
           column = 0
-          pages += page.trimEnd()
+          page.trimEnd().let {
+            if (it.isNotEmpty()) {
+              pages += page.trimEnd()
+            }
+          }
         } else if (line == 13) {
           val page = text.substring(pageStartIndex, cursor + word.length + 1)
           pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
           line = 1
           column = 0
-          pages += page.trimEnd()
+          page.trimEnd().let {
+            if (it.isNotEmpty()) {
+              pages += page.trimEnd()
+            }
+          }
         } else {
           line += 2
           column = 0
@@ -181,7 +217,11 @@ fun pages(text: String): List<String> {
           pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
           line = 1
           column = 0
-          pages += page.trimEnd()
+          page.trimEnd().let {
+            if (it.isNotEmpty()) {
+              pages += page.trimEnd()
+            }
+          }
         } else {
           line++
           column = 0
@@ -192,7 +232,11 @@ fun pages(text: String): List<String> {
           pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
           line = 1
           column = 0
-          pages += page.trimEnd()
+          page.trimEnd().let {
+            if (it.isNotEmpty()) {
+              pages += page.trimEnd()
+            }
+          }
         } else {
           line++
           column = 0

@@ -1,4 +1,3 @@
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -112,5 +111,27 @@ class GutencraftTest {
     val text = "a\n".repeat(13) + "i".repeat(56) + " b\nc" + "\na".repeat(14)
     val result = pages(text)
     assertEquals(listOf("a\n".repeat(13) + "i".repeat(56), "b\nc" + "\na".repeat(12), "a\na"), result)
+  }
+
+  @Test fun noBlankPages() {
+    var text = " "
+    var result = pages(text)
+    assertEquals(listOf(), result)
+
+    text = " ".repeat(100)
+    result = pages(text)
+    assertEquals(listOf(), result)
+
+    text = " ".repeat(100) + "a"
+    result = pages(text)
+    assertEquals(listOf(" ".repeat(100) + "a"), result)
+
+    text = " ".repeat(407) + "a"
+    result = pages(text)
+    assertEquals(listOf(" a"), result)
+
+    text = "a".repeat(100) + "\n".repeat(100) + "b".repeat(1) + " ".repeat(1000) + "c".repeat(1) + " ".repeat(1000) + "\n".repeat(100)
+    result = pages(text)
+    assertEquals(listOf("a".repeat(100), "b", " ".repeat(189) + "c"), result)
   }
 }
