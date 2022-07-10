@@ -387,6 +387,9 @@ private fun Int.columnCountInternal(): Int {
     this == '”'.toInt() -> {
       5
     }
+    this == '„'.toInt() -> {
+      5
+    }
     this == '<'.toInt() -> {
       5
     }
@@ -486,6 +489,60 @@ private fun Int.columnCountInternal(): Int {
       6
     }
     this == 'Ø'.toInt() -> {
+      6
+    }
+    this == 'Ą'.toInt() -> {
+      6
+    }
+    this == 'ą'.toInt() -> {
+      6
+    }
+    this == 'Ż'.toInt() -> {
+      6
+    }
+    this == 'ż'.toInt() -> {
+      6
+    }
+    this == 'Ę'.toInt() -> {
+      6
+    }
+    this == 'ę'.toInt() -> {
+      6
+    }
+    this == 'Ẽ'.toInt() -> {
+      6
+    }
+    this == 'ẽ'.toInt() -> {
+      6
+    }
+    this == 'Ł'.toInt() -> {
+      7
+    }
+    this == 'ł'.toInt() -> {
+      5
+    }
+    this == 'Ś'.toInt() -> {
+      6
+    }
+    this == 'ś'.toInt() -> {
+      6
+    }
+    this == 'Ń'.toInt() -> {
+      6
+    }
+    this == 'ń'.toInt() -> {
+      6
+    }
+    this == 'Ź'.toInt() -> {
+      6
+    }
+    this == 'ź'.toInt() -> {
+      6
+    }
+    this == 'Ć'.toInt() -> {
+      6
+    }
+    this == 'ć'.toInt() -> {
       6
     }
     else -> {
