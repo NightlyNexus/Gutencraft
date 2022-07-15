@@ -419,6 +419,10 @@ private fun Int.columnCountInternal(): Int {
     this == '—'.toInt() -> {
       9
     }
+    // oghman space mark.
+    this == ' '.toInt() -> {
+      9
+    }
     this == '…'.toInt() -> {
       8
     }
