@@ -190,7 +190,8 @@ fun pages(text: String): List<String> {
         if (line == 14) {
           val page = text.substring(pageStartIndex, cursor)
           pageStartIndex = cursor
-          line = 2 // The word carries over onto next page and then has a new line, so we are now on line 2.
+          // The word carries over onto next page and then has a new line, so we are now on line 2.
+          line = 2
           column = 0
           page.trimEnd().let {
             if (it.isNotEmpty()) {
@@ -252,7 +253,7 @@ fun Int.isSupportedCharacter(): Boolean {
   return this == ' '.toInt() || columnCountInternal() != -1
 }
 
-class UnsupportedCharacterException(val character: Int): Exception()
+class UnsupportedCharacterException(val character: Int) : Exception()
 
 private const val lineWidth = 114
 private const val spaceWidth = 4
@@ -565,13 +566,13 @@ private fun Int.columnCountInternal(): Int {
         return -1
       }
       checkBackup(asciiBackup).let {
-        if (it !=1 -1) return it
+        if (it != -1) return it
       }
       checkBackup(accentedBackup).let {
-        if (it !=1 -1) return it
+        if (it != -1) return it
       }
       checkBackup(nonLatinEuropeanBackup).let {
-        if (it !=1 -1) return it
+        if (it != -1) return it
       }
       -1
     }
