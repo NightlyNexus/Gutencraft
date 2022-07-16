@@ -53,18 +53,22 @@ class GutencraftTest {
   @Test fun longWordOverflowsPage() {
     var text = "a".repeat(19 * 11 + 10) + " " + "a".repeat(19 * 11 + 10)
     var result = pages(text)
-    assertEquals(listOf(
-      "a".repeat(19 * 11 + 10) + " " + "a".repeat(19 * 2),
-      "a".repeat(19 * 9 + 10)
-    ), result)
+    assertEquals(
+      listOf(
+        "a".repeat(19 * 11 + 10) + " " + "a".repeat(19 * 2),
+        "a".repeat(19 * 9 + 10)
+      ), result
+    )
 
     text = "a".repeat(19 * 11 + 10) + " " + "a".repeat(19 * 14 + 19 * 11 + 10)
     result = pages(text)
-    assertEquals(listOf(
-      "a".repeat(19 * 11 + 10) + " " + "a".repeat(19 * 2),
-      "a".repeat(19 * 14),
-      "a".repeat(19 * 9 + 10)
-    ), result)
+    assertEquals(
+      listOf(
+        "a".repeat(19 * 11 + 10) + " " + "a".repeat(19 * 2),
+        "a".repeat(19 * 14),
+        "a".repeat(19 * 9 + 10)
+      ), result
+    )
   }
 
   @Test fun oneWordPage() {
@@ -110,7 +114,10 @@ class GutencraftTest {
   @Test fun newLineAfterWordOverflowsToNewPage() {
     val text = "a\n".repeat(13) + "i".repeat(56) + " b\nc" + "\na".repeat(14)
     val result = pages(text)
-    assertEquals(listOf("a\n".repeat(13) + "i".repeat(56), "b\nc" + "\na".repeat(12), "a\na"), result)
+    assertEquals(
+      listOf("a\n".repeat(13) + "i".repeat(56), "b\nc" + "\na".repeat(12), "a\na"),
+      result
+    )
   }
 
   @Test fun noBlankPages() {
@@ -130,7 +137,12 @@ class GutencraftTest {
     result = pages(text)
     assertEquals(listOf(" a"), result)
 
-    text = "a".repeat(100) + "\n".repeat(100) + "b".repeat(1) + " ".repeat(1000) + "c".repeat(1) + " ".repeat(1000) + "\n".repeat(100)
+    text =
+      "a".repeat(100) + "\n".repeat(100) + "b".repeat(1) + " ".repeat(1000) + "c".repeat(1) + " ".repeat(
+        1000
+      ) + "\n".repeat(
+        100
+      )
     result = pages(text)
     assertEquals(listOf("a".repeat(100), "b", " ".repeat(189) + "c"), result)
   }

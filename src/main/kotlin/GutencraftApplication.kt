@@ -23,7 +23,8 @@ class GutencraftApplication : Application() {
   override fun start(primaryStage: Stage) {
     primaryStage.title = "Gutencraft"
     primaryStage.icons += Image(
-        GutencraftApplication::class.java.getResourceAsStream("book and quill.png"))
+      GutencraftApplication::class.java.getResourceAsStream("book and quill.png")
+    )
     val scrollPane = ScrollPane()
     val layout = VBox(10.0)
     scrollPane.content = layout
@@ -46,13 +47,13 @@ class GutencraftApplication : Application() {
         val page = pages[i]
         layout.children.add(Label(page).apply {
           background =
-              Background(
-                  BackgroundFill(
-                      Color.rgb(200, 200, 200),
-                      CornerRadii(0.0),
-                      Insets(0.0)
-                  )
+            Background(
+              BackgroundFill(
+                Color.rgb(200, 200, 200),
+                CornerRadii(0.0),
+                Insets(0.0)
               )
+            )
         })
         layout.children.add(Button("${i + 1}. Copy").apply {
           setOnAction {
@@ -79,9 +80,12 @@ class GutencraftApplication : Application() {
     }
     val unsupportedCharactersSize = unsupportedCharacters.size
     return if (unsupportedCharactersSize == 1) {
-      "Unsupported character (if Minecraft supports this character please email me at eric@nightlynexus.com):\n${unsupportedCharacters.first().codePointToString()}"
+      "Unsupported character (if Minecraft supports this character please email me at eric@nightlynexus.com):\n${
+        unsupportedCharacters.first().codePointToString()
+      }"
     } else {
-      val errorMessagePrefix = "Unsupported characters (if Minecraft supports any of these characters please email me at eric@nightlynexus.com):"
+      val errorMessagePrefix =
+        "Unsupported characters (if Minecraft supports any of these characters please email me at eric@nightlynexus.com):"
       val errorMessage = StringBuilder(errorMessagePrefix.length + unsupportedCharactersSize * 2)
         .append(errorMessagePrefix)
       for (unsupportedCharacter in unsupportedCharacters) {

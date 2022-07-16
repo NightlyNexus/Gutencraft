@@ -1,8 +1,8 @@
 plugins {
-  id 'org.jetbrains.kotlin.jvm' version '1.4.21'
+  id 'org.jetbrains.kotlin.jvm' version '1.7.10'
   id 'java'
   id 'application'
-  id 'org.openjfx.javafxplugin' version '0.0.8'
+  id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 mainClassName = 'GutencraftApplicationKt'
@@ -15,8 +15,8 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.21'
-  testImplementation 'org.jetbrains.kotlin:kotlin-test-junit:1.4.21'
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.7.10'
+  testImplementation 'org.jetbrains.kotlin:kotlin-test-junit:1.7.10'
 }
 
 javafx {
@@ -34,7 +34,7 @@ compileTestKotlin {
 jar {
   manifest {
     attributes(
-            'Main-Class': 'GutencraftApplicationKt'
+        'Main-Class': 'GutencraftApplicationKt'
     )
   }
   from {
@@ -42,4 +42,5 @@ jar {
       it.isDirectory() ? it : zipTree(it)
     }
   }
+  duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
