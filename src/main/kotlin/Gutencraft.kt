@@ -253,7 +253,7 @@ fun Int.isSupportedCharacter(): Boolean {
   return this == ' '.code || columnCountInternal() != -1
 }
 
-class UnsupportedCharacterException(val character: Int) : Exception()
+class UnsupportedCharacterException(val codePoint: Int) : Exception()
 
 private const val lineWidth = 114
 private const val spaceWidth = 4

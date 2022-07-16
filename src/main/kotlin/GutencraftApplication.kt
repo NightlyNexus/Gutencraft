@@ -102,7 +102,7 @@ class GutencraftApplication : Application() {
       return "Tab character. Consider replacing with repeated spaces."
     }
     if (Character.isWhitespace(this)) {
-      return "A whitespace character (codepoint: $this). Consider replacing with spaces."
+      return "A whitespace character (code point: $this). Consider replacing with spaces."
     }
     return String(IntArray(1) { this }, 0, 1)
   }
