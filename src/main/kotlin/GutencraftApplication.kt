@@ -98,7 +98,7 @@ class GutencraftApplication : Application() {
   }
 
   private fun Int.codePointToString(): String {
-    if (this == '\t'.toInt()) {
+    if (this == '\t'.code) {
       return "Tab character. Consider replacing with repeated spaces."
     }
     if (Character.isWhitespace(this)) {

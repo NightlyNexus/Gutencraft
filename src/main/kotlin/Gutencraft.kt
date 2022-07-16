@@ -250,7 +250,7 @@ fun pages(text: String): List<String> {
 }
 
 fun Int.isSupportedCharacter(): Boolean {
-  return this == ' '.toInt() || columnCountInternal() != -1
+  return this == ' '.code || columnCountInternal() != -1
 }
 
 class UnsupportedCharacterException(val character: Int) : Exception()
@@ -268,290 +268,290 @@ private fun Int.columnCount(): Int {
 
 private fun Int.columnCountInternal(): Int {
   return when {
-    this in 'a'.toInt()..'e'.toInt() -> {
+    this in 'a'.code..'e'.code -> {
       6
     }
-    this == 'f'.toInt() -> {
+    this == 'f'.code -> {
       5
     }
-    this in 'g'.toInt()..'h'.toInt() -> {
+    this in 'g'.code..'h'.code -> {
       6
     }
-    this == 'i'.toInt() -> {
+    this == 'i'.code -> {
       2
     }
-    this == 'j'.toInt() -> {
+    this == 'j'.code -> {
       6
     }
-    this == 'k'.toInt() -> {
+    this == 'k'.code -> {
       5
     }
-    this == 'l'.toInt() -> {
+    this == 'l'.code -> {
       3
     }
-    this in 'm'.toInt()..'s'.toInt() -> {
+    this in 'm'.code..'s'.code -> {
       6
     }
-    this == 't'.toInt() -> {
+    this == 't'.code -> {
       4
     }
-    this in 'u'.toInt()..'z'.toInt() -> {
+    this in 'u'.code..'z'.code -> {
       6
     }
-    this in 'A'.toInt()..'H'.toInt() -> {
+    this in 'A'.code..'H'.code -> {
       6
     }
-    this == 'I'.toInt() -> {
+    this == 'I'.code -> {
       4
     }
-    this in 'J'.toInt()..'Z'.toInt() -> {
+    this in 'J'.code..'Z'.code -> {
       6
     }
-    this in '0'.toInt()..'9'.toInt() -> {
+    this in '0'.code..'9'.code -> {
       6
     }
-    this == '\''.toInt() -> {
+    this == '\''.code -> {
       2
     }
-    this == '"'.toInt() -> {
+    this == '"'.code -> {
       4
     }
-    this == '.'.toInt() -> {
+    this == '.'.code -> {
       2
     }
-    this == ','.toInt() -> {
+    this == ','.code -> {
       2
     }
-    this == '!'.toInt() -> {
+    this == '!'.code -> {
       2
     }
-    this == '¡'.toInt() -> {
+    this == '¡'.code -> {
       2
     }
-    this == '?'.toInt() -> {
+    this == '?'.code -> {
       6
     }
-    this == '¿'.toInt() -> {
+    this == '¿'.code -> {
       6
     }
-    this == '&'.toInt() -> {
+    this == '&'.code -> {
       6
     }
-    this == '@'.toInt() -> {
+    this == '@'.code -> {
       7
     }
-    this == '#'.toInt() -> {
+    this == '#'.code -> {
       6
     }
-    this == '$'.toInt() -> {
+    this == '$'.code -> {
       6
     }
-    this == '%'.toInt() -> {
+    this == '%'.code -> {
       6
     }
-    this == '^'.toInt() -> {
+    this == '^'.code -> {
       6
     }
-    this == ':'.toInt() -> {
+    this == ':'.code -> {
       2
     }
-    this == ';'.toInt() -> {
+    this == ';'.code -> {
       2
     }
-    this == '('.toInt() -> {
+    this == '('.code -> {
       4
     }
-    this == ')'.toInt() -> {
+    this == ')'.code -> {
       4
     }
-    this == '['.toInt() -> {
+    this == '['.code -> {
       4
     }
-    this == ']'.toInt() -> {
+    this == ']'.code -> {
       4
     }
-    this == '/'.toInt() -> {
+    this == '/'.code -> {
       6
     }
-    this == '\\'.toInt() -> {
+    this == '\\'.code -> {
       6
     }
-    this == '‘'.toInt() -> {
+    this == '‘'.code -> {
       3
     }
-    this == '’'.toInt() -> {
+    this == '’'.code -> {
       3
     }
-    this == '“'.toInt() -> {
+    this == '“'.code -> {
       5
     }
-    this == '”'.toInt() -> {
+    this == '”'.code -> {
       5
     }
-    this == '„'.toInt() -> {
+    this == '„'.code -> {
       5
     }
-    this == '<'.toInt() -> {
+    this == '<'.code -> {
       5
     }
-    this == '>'.toInt() -> {
+    this == '>'.code -> {
       5
     }
-    this == '*'.toInt() -> {
+    this == '*'.code -> {
       4
     }
-    this == '+'.toInt() -> {
+    this == '+'.code -> {
       6
     }
-    this == '='.toInt() -> {
+    this == '='.code -> {
       6
     }
-    this == '_'.toInt() -> {
+    this == '_'.code -> {
       6
     }
-    this == '-'.toInt() -> {
+    this == '-'.code -> {
       6
     }
     // en dash.
-    this == '–'.toInt() -> {
+    this == '–'.code -> {
       7
     }
     // em dash.
-    this == '—'.toInt() -> {
+    this == '—'.code -> {
       9
     }
     // oghman space mark.
-    this == ' '.toInt() -> {
+    this == ' '.code -> {
       9
     }
-    this == '…'.toInt() -> {
+    this == '…'.code -> {
       8
     }
-    this == 'Á'.toInt() -> {
+    this == 'Á'.code -> {
       6
     }
-    this == 'á'.toInt() -> {
+    this == 'á'.code -> {
       6
     }
-    this == 'É'.toInt() -> {
+    this == 'É'.code -> {
       6
     }
-    this == 'é'.toInt() -> {
+    this == 'é'.code -> {
       6
     }
-    this == 'Í'.toInt() -> {
+    this == 'Í'.code -> {
       4
     }
-    this == 'í'.toInt() -> {
+    this == 'í'.code -> {
       3
     }
-    this == 'Ó'.toInt() -> {
+    this == 'Ó'.code -> {
       6
     }
-    this == 'ó'.toInt() -> {
+    this == 'ó'.code -> {
       6
     }
-    this == 'Ñ'.toInt() -> {
+    this == 'Ñ'.code -> {
       6
     }
-    this == 'ñ'.toInt() -> {
+    this == 'ñ'.code -> {
       6
     }
-    this == 'Ú'.toInt() -> {
+    this == 'Ú'.code -> {
       6
     }
-    this == 'ú'.toInt() -> {
+    this == 'ú'.code -> {
       6
     }
-    this == 'Ü'.toInt() -> {
+    this == 'Ü'.code -> {
       6
     }
-    this == 'ü'.toInt() -> {
+    this == 'ü'.code -> {
       6
     }
-    this == '~'.toInt() -> {
+    this == '~'.code -> {
       7
     }
-    this == '«'.toInt() -> {
+    this == '«'.code -> {
       7
     }
-    this == '»'.toInt() -> {
+    this == '»'.code -> {
       7
     }
-    this == '©'.toInt() -> {
+    this == '©'.code -> {
       8
     }
-    this == '®'.toInt() -> {
+    this == '®'.code -> {
       8
     }
-    this == 'ø'.toInt() -> {
+    this == 'ø'.code -> {
       6
     }
-    this == '£'.toInt() -> {
+    this == '£'.code -> {
       6
     }
-    this == '¢'.toInt() -> {
+    this == '¢'.code -> {
       6
     }
-    this == 'Ø'.toInt() -> {
+    this == 'Ø'.code -> {
       6
     }
-    this == 'Ą'.toInt() -> {
+    this == 'Ą'.code -> {
       6
     }
-    this == 'ą'.toInt() -> {
+    this == 'ą'.code -> {
       6
     }
-    this == 'Ż'.toInt() -> {
+    this == 'Ż'.code -> {
       6
     }
-    this == 'ż'.toInt() -> {
+    this == 'ż'.code -> {
       6
     }
-    this == 'Ę'.toInt() -> {
+    this == 'Ę'.code -> {
       6
     }
-    this == 'ę'.toInt() -> {
+    this == 'ę'.code -> {
       6
     }
-    this == 'Ẽ'.toInt() -> {
+    this == 'Ẽ'.code -> {
       6
     }
-    this == 'ẽ'.toInt() -> {
+    this == 'ẽ'.code -> {
       6
     }
-    this == 'Ł'.toInt() -> {
+    this == 'Ł'.code -> {
       7
     }
-    this == 'ł'.toInt() -> {
+    this == 'ł'.code -> {
       5
     }
-    this == 'Ś'.toInt() -> {
+    this == 'Ś'.code -> {
       6
     }
-    this == 'ś'.toInt() -> {
+    this == 'ś'.code -> {
       6
     }
-    this == 'Ń'.toInt() -> {
+    this == 'Ń'.code -> {
       6
     }
-    this == 'ń'.toInt() -> {
+    this == 'ń'.code -> {
       6
     }
-    this == 'Ź'.toInt() -> {
+    this == 'Ź'.code -> {
       6
     }
-    this == 'ź'.toInt() -> {
+    this == 'ź'.code -> {
       6
     }
-    this == 'Ć'.toInt() -> {
+    this == 'Ć'.code -> {
       6
     }
-    this == 'ć'.toInt() -> {
+    this == 'ć'.code -> {
       6
     }
     else -> {
-      if (this == ' '.toInt()) {
+      if (this == ' '.code) {
         throw AssertionError()
       }
       fun checkBackup(backup: String): Int {
