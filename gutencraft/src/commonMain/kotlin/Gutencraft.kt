@@ -47,7 +47,7 @@ fun pages(text: String): List<String> {
         } else {
           sum = nextSum
         }
-        wordIndex += Character.charCount(codePoint)
+        wordIndex += codePoint.charCount()
       }
       val columnCount = sum
       if (column + columnCount > lineWidth) {
@@ -144,7 +144,7 @@ fun pages(text: String): List<String> {
       } else {
         sum = nextSum
       }
-      wordIndex += Character.charCount(codePoint)
+      wordIndex += codePoint.charCount()
     }
     val columnCount = sum
     if (text[index] == ' ') {
@@ -561,7 +561,7 @@ private fun Int.columnCountInternal(): Int {
           if (this == codePoint) {
             return 10 // Some large enough width.
           }
-          i += Character.charCount(codePoint)
+          i += codePoint.charCount()
         }
         return -1
       }
