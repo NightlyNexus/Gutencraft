@@ -2,7 +2,7 @@ import kotlinx.dom.appendElement
 import org.w3c.dom.Element
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLTextAreaElement
-import kotlin.browser.document
+import kotlinx.browser.document
 
 fun main() {
   val input = document.getElementById("input") as HTMLTextAreaElement

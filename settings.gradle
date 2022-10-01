@@ -1,1 +1,4 @@
 rootProject.name = 'Gutencraft'
+include 'javafx'
+include 'gutencraft'
+include 'web'

@@ -1,0 +1,22 @@
+plugins {
+  id 'org.jetbrains.kotlin.js' version '1.7.20'
+}
+
+group 'com.nightlynexus'
+version '1.0-SNAPSHOT'
+
+kotlin {
+  js {
+    browser {
+    }
+    binaries.executable()
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation project(':gutencraft')
+}
