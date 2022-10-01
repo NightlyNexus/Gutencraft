@@ -557,7 +557,7 @@ private fun Int.columnCountInternal(): Int {
       fun checkBackup(backup: String): Int {
         var i = 0
         while (i < backup.length) {
-          val codePoint = asciiBackup.codePointAt(i)
+          val codePoint = backup.codePointAt(i)
           if (this == codePoint) {
             return 10 // Some large enough width.
           }
