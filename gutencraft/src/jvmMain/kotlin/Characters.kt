@@ -7,3 +7,7 @@ actual fun Int.charCount(): Int {
 actual fun String.codePointAt(index: Int): Int {
   return jvmCodePointAt(index)
 }
+
+actual fun Int.codePointToString(): String {
+  return String(IntArray(1) { this }, 0, 1)
+}
