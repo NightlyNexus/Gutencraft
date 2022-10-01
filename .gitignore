@@ -1,0 +1,13 @@
+# IntelliJ IDEA
+.idea
+*.iml
+
+# Gradle
+.gradle
+build
+local.properties
+
+# Mac OS
+.DS_Store
+
+yarn.lock
