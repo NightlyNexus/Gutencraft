@@ -250,7 +250,7 @@ fun pages(text: String): List<String> {
 }
 
 fun Int.isSupportedCharacter(): Boolean {
-  return this == ' '.code || columnCountInternal() != -1
+  return this == ' '.code || this == '\n'.code || columnCountInternal() != -1
 }
 
 class UnsupportedCharacterException(val codePoint: Int) : Exception()
@@ -551,7 +551,7 @@ private fun Int.columnCountInternal(): Int {
       6
     }
     else -> {
-      if (this == ' '.code) {
+      if (this == ' '.code || this == '\n'.code) {
         throw AssertionError()
       }
       fun checkBackup(backup: String): Int {
