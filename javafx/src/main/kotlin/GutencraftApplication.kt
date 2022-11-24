@@ -43,31 +43,45 @@ class GutencraftApplication : Application() {
         layout.children.add(errorLabel)
         return@setOnAction
       }
+      val command = command(pages)
+      layout.addItem(command, "Copy command")
       for (i in pages.indices) {
         val page = pages[i]
-        layout.children.add(Label(page).apply {
-          background =
-            Background(
-              BackgroundFill(
-                Color.rgb(200, 200, 200),
-                CornerRadii(0.0),
-                Insets(0.0)
-              )
-            )
-        })
-        layout.children.add(Button("${i + 1}. Copy").apply {
-          setOnAction {
-            val clipboard = Clipboard.getSystemClipboard()
-            val content = ClipboardContent()
-            content.putString(page)
-            clipboard.setContent(content)
-          }
-        })
+        layout.addItem(page, "${i + 1}. Copy")
       }
     }
     layout.children.add(input)
     layout.children.add(print)
     primaryStage.scene = Scene(scrollPane, 600.0, 300.0)
     primaryStage.show()
+  }
+
+  private fun VBox.addItem(content: String, copyLabel: String) {
+    addLabel(content)
+    addCopyButton(copyLabel, content)
+  }
+
+  private fun VBox.addLabel(label: String) {
+    children.add(Label(label).apply {
+      background =
+        Background(
+          BackgroundFill(
+            Color.rgb(200, 200, 200),
+            CornerRadii(0.0),
+            Insets(0.0)
+          )
+        )
+    })
+  }
+
+  private fun VBox.addCopyButton(label: String, copy: String) {
+    children.add(Button(label).apply {
+      setOnAction {
+        val clipboard = Clipboard.getSystemClipboard()
+        val content = ClipboardContent()
+        content.putString(copy)
+        clipboard.setContent(content)
+      }
+    })
   }
 }
