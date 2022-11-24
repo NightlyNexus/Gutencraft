@@ -1,5 +1,5 @@
-expect fun Int.charCount(): Int
+internal expect fun Int.charCount(): Int
 
-expect fun String.codePointAt(index: Int): Int
+internal expect fun String.codePointAt(index: Int): Int
 
-expect fun Int.codePointToString(): String
+internal expect fun Int.codePointToString(): String
