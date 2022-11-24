@@ -8,7 +8,6 @@ import kotlinx.browser.window
 fun main() {
   val input = document.getElementById("input") as HTMLTextAreaElement
   val run = document.getElementById("print") as HTMLButtonElement
-  val clipboard = window.navigator.clipboard
   var result: Element? = null
   run.addEventListener("click", {
     result?.remove()
@@ -26,23 +25,30 @@ fun main() {
     }
     result = document.body!!.appendElement("ol") {
       setAttribute("style", "list-style-type: none;")
+      val command = command(pages)
+      addItem(command, "Copy command")
       for (i in pages.indices) {
         val page = pages[i]
-        appendElement("li") {
-          setAttribute("style", "white-space: pre-line; margin-top: 40px; ")
-          appendElement("pre") {
-            setAttribute("style", "background-color: #C8C8C8; display: inline-block;")
-            textContent = page
-          }
-          appendElement("br") {}
-          appendElement("button") {
-            textContent = "${i + 1}. Copy"
-            addEventListener("click", {
-              clipboard.writeText(page)
-            })
-          }
-        }
+        addItem(page, "${i + 1}. Copy")
       }
     }
   })
+}
+
+private fun Element.addItem(content: String, copyLabel: String) {
+  appendElement("li") {
+    setAttribute("style", "white-space: pre-line; margin-top: 40px; ")
+    appendElement("pre") {
+      setAttribute("style", "background-color: #C8C8C8; display: inline-block;")
+      textContent = content
+    }
+    appendElement("br") {}
+    appendElement("button") {
+      textContent = copyLabel
+      addEventListener("click", {
+        val clipboard = window.navigator.clipboard
+        clipboard.writeText(content)
+      })
+    }
+  }
 }
