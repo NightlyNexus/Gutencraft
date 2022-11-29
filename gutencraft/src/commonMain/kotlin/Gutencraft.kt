@@ -553,6 +553,9 @@ private fun Int.columnCountInternal(): Int {
     this == 'ć'.code -> {
       6
     }
+    this in 0xFF01..0xFF5E -> {
+      9
+    }
     this == '。'.code -> {
       9
     }
