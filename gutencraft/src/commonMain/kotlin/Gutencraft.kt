@@ -267,6 +267,9 @@ private fun Int.columnCount(): Int {
 }
 
 private fun Int.columnCountInternal(): Int {
+  if (this == ' '.code || this == '\n'.code) {
+    throw AssertionError()
+  }
   return when {
     this in 'a'.code..'e'.code -> {
       6
@@ -550,10 +553,14 @@ private fun Int.columnCountInternal(): Int {
     this == 'ć'.code -> {
       6
     }
+    this == '。'.code -> {
+      9
+    }
+    this in 0x4E00..0x9FFF -> {
+      // Assume all common Chinese characters are supported in Minecraft and are 9-width.
+      9
+    }
     else -> {
-      if (this == ' '.code || this == '\n'.code) {
-        throw AssertionError()
-      }
       fun checkBackup(backup: String): Int {
         var i = 0
         while (i < backup.length) {
