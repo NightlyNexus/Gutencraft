@@ -17,8 +17,19 @@ fun command(pages: List<String>): String {
 
 private fun StringBuilder.appendDoubleJson(value: String) = apply {
   append('"')
-  appendJson(StringBuilder().appendJson(value))
+  appendWithEscapedEscapes(StringBuilder().appendJson(value))
   append('"')
+}
+
+private fun StringBuilder.appendWithEscapedEscapes(value: CharSequence) = apply {
+  for (i in value.indices) {
+    val c = value[i]
+    if (c == '\\') {
+      append("\\\\")
+    } else {
+      append(c)
+    }
+  }
 }
 
 private fun StringBuilder.appendJson(value: CharSequence) = apply {
