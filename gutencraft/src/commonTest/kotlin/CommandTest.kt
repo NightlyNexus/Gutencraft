@@ -4,7 +4,7 @@ import kotlin.test.assertEquals
 class CommandTest {
   @Test fun page() {
     val text = "${"a".repeat(10)} ".repeat(15)
-    val result = pages(text)
+    val result = pagesJava(text)
     assertEquals(listOf("${"a".repeat(10)} ".repeat(14).trimEnd(), "a".repeat(10)), result)
     val command = command(result)
     assertEquals(
@@ -14,7 +14,7 @@ class CommandTest {
   }
 
   @Test fun escapes() {
-    val pages = pages("begin... \\\nf\" ' ...end")
+    val pages = pagesJava("begin... \\\nf\" ' ...end")
     assertEquals(
       """/give @p written_book{pages:['{"text":"begin... \\\\\\nf\\" ' ...end"}'],title:"<Insert book name>",author:"<Insert author>"}""".trimMargin(),
       command(pages)

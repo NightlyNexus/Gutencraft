@@ -35,7 +35,7 @@ class GutencraftApplication : Application() {
       val inputText = input.text
       val pages: List<String>
       try {
-        pages = pages(inputText)
+        pages = pagesJava(inputText)
       } catch (e: UnsupportedCharacterException) {
         val errorMessage = errorMessage(inputText)
         val errorLabel = Label(errorMessage)
