@@ -7,21 +7,27 @@ import kotlinx.browser.window
 
 fun main() {
   val input = document.getElementById("input") as HTMLTextAreaElement
-  val run = document.getElementById("print") as HTMLButtonElement
+  val printJava = document.getElementById("print_java") as HTMLButtonElement
+  val printBedrock = document.getElementById("print_bedrock") as HTMLButtonElement
+
   var result: Element? = null
-  run.addEventListener("click", {
+  fun printResult(javaEdition: Boolean) {
     result?.remove()
     val inputText = input.value
     val pages: List<String>
     try {
-      pages = pagesJava(inputText)
+      pages = if (javaEdition) {
+        pagesJava(inputText)
+      } else {
+        pagesBedrock(inputText)
+      }
     } catch (e: UnsupportedCharacterException) {
       val errorMessage = errorMessage(inputText)
       result = document.body!!.appendElement("p") {
         setAttribute("style", "white-space: pre-line; margin-top: 40px; color:red;")
         textContent = errorMessage
       }
-      return@addEventListener
+      return
     }
     result = document.body!!.appendElement("ol") {
       setAttribute("style", "list-style-type: none;")
@@ -32,6 +38,17 @@ fun main() {
         addItem(page, "${i + 1}. Copy")
       }
     }
+  }
+
+  printJava.addEventListener("click", {
+    printResult(true)
+    printJava.select()
+    printBedrock.deselect()
+  })
+  printBedrock.addEventListener("click", {
+    printResult(false)
+    printJava.deselect()
+    printBedrock.select()
   })
 }
 
@@ -51,4 +68,12 @@ private fun Element.addItem(content: String, copyLabel: String) {
       })
     }
   }
+}
+
+private fun HTMLButtonElement.select() {
+  setAttribute("style", "color: #4EB02D; font-weight: bold;")
+}
+
+private fun HTMLButtonElement.deselect() {
+  setAttribute("style", "")
 }
