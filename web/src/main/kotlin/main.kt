@@ -14,7 +14,7 @@ fun main() {
     val inputText = input.value
     val pages: List<String>
     try {
-      pages = pages(inputText)
+      pages = pagesJava(inputText)
     } catch (e: UnsupportedCharacterException) {
       val errorMessage = errorMessage(inputText)
       result = document.body!!.appendElement("p") {

@@ -1,4 +1,12 @@
-fun pages(text: String): List<String> {
+fun pagesJava(text: String): List<String> {
+  return pages(text, lineWidthJava)
+}
+
+fun pagesBedrock(text: String): List<String> {
+  return pages(text, lineWidthBedrock)
+}
+
+private fun pages(text: String, lineWidth: Int): List<String> {
   val pages = mutableListOf<String>()
   var line = 1
   var column = 0
@@ -255,7 +263,8 @@ fun Int.isSupportedCharacter(): Boolean {
 
 class UnsupportedCharacterException(val codePoint: Int) : Exception()
 
-private const val lineWidth = 114
+private const val lineWidthJava = 114
+private const val lineWidthBedrock = 122
 private const val spaceWidth = 4
 
 private fun Int.columnCount(): Int {
