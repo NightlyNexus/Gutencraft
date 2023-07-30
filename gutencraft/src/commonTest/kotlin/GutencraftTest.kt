@@ -151,7 +151,7 @@ class GutencraftTest {
     val text = "a\n".repeat(13) + " " + "i".repeat(58)
     val result = pagesJava(text)
     assertEquals(
-      listOf("a\n".repeat(13) + " " + "i".repeat(55), "iii"),
+      listOf("a\n".repeat(13) + " ", "i".repeat(58)),
       result
     )
   }
