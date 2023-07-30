@@ -146,4 +146,13 @@ class GutencraftTest {
     result = pagesJava(text)
     assertEquals(listOf("a".repeat(100), "b", " ".repeat(189) + "c"), result)
   }
+
+  @Test fun longWordOverflowsLastLine() {
+    val text = "a\n".repeat(13) + " " + "i".repeat(58)
+    val result = pagesJava(text)
+    assertEquals(
+      listOf("a\n".repeat(13) + " " + "i".repeat(55), "iii"),
+      result
+    )
+  }
 }
