@@ -12,7 +12,7 @@ private class PageBuilder(private val text: String, private val lineWidth: Int, 
   var cursor = 0
   var pageStartIndex = 0
 
-  fun fooWord(word: String): Int {
+  private fun measureWord(word: String): Int {
     var sum = 0
     var wordIndex = 0
     var wordOverflowsLine = false
@@ -57,116 +57,168 @@ private class PageBuilder(private val text: String, private val lineWidth: Int, 
     return sum
   }
 
-  fun barWord(word: String, columnCount: Int) {
-if (column + columnCount > lineWidth) {
-  if (line == 14) {
-    val page = text.substring(pageStartIndex, cursor)
-    pageStartIndex = cursor
-    line = 1
-    column = columnCount
+  private fun addTrimmedPage(page: String) {
     page.trimEnd().let {
       if (it.isNotEmpty()) {
         pages += page.trimEnd()
       }
     }
-  } else {
-    line++
-    column = columnCount
-  }
-  val page = text.substring(pageStartIndex)
-  page.trimEnd().let {
-    if (it.isNotEmpty()) {
-      pages += page.trimEnd()
-    }
-  }
-} else if (column + columnCount == lineWidth) {
-  if (line == 14) {
-    val page = text.substring(pageStartIndex, cursor + word.length)
-    pageStartIndex = cursor + word.length
-    line = 1
-    column = 0
-    page.trimEnd().let {
-      if (it.isNotEmpty()) {
-        pages += page.trimEnd()
-      }
-    }
-  } else {
-    line++
-    column = 0
-    val page = text.substring(pageStartIndex)
-    page.trimEnd().let {
-      if (it.isNotEmpty()) {
-        pages += page.trimEnd()
-      }
-    }
-  }
-} else {
-  column += columnCount
-  val page = text.substring(pageStartIndex)
-  page.trimEnd().let {
-    if (it.isNotEmpty()) {
-      pages += page.trimEnd()
-    }
-  }
-}
-cursor += word.length
   }
 
-  fun sidcdsdic(word: String, columnCount: Int) {
-if (column + columnCount > lineWidth) {
-  if (line == 14) {
-    val page = text.substring(pageStartIndex, cursor)
-    pageStartIndex = cursor
-    line = 1
-    column = columnCount + spaceWidth // + for whitespace.
-    page.trimEnd().let {
-      if (it.isNotEmpty()) {
-        pages += page.trimEnd()
+  fun pages(text: String, lineWidth: Int, pageMaxCharacterCount: Int): List<String> {
+    val pages = mutableListOf<String>()
+    do {
+      val index = text.indexOfAny(whitespace, cursor)
+      if (index == -1) {
+        val word = text.substring(cursor)
+        val columnCount = measureWord(word)
+        if (column + columnCount > lineWidth) {
+          if (line == 14) {
+            val page = text.substring(pageStartIndex, cursor)
+            pageStartIndex = cursor
+            line = 1
+            column = columnCount
+            addTrimmedPage(page)
+          } else {
+            line++
+            column = columnCount
+          }
+          val page = text.substring(pageStartIndex)
+          addTrimmedPage(page)
+        } else if (column + columnCount == lineWidth) {
+          if (line == 14) {
+            val page = text.substring(pageStartIndex, cursor + word.length)
+            pageStartIndex = cursor + word.length
+            line = 1
+            column = 0
+            addTrimmedPage(page)
+          } else {
+            line++
+            column = 0
+            val page = text.substring(pageStartIndex)
+            addTrimmedPage(page)
+          }
+        } else {
+          column += columnCount
+          val page = text.substring(pageStartIndex)
+          addTrimmedPage(page)
+        }
+        cursor += word.length
+        break
       }
-    }
-  } else {
-    line++
-    column = columnCount + spaceWidth // + for whitespace.
-  }
-} else if (column + columnCount == lineWidth) {
-  if (line == 14) {
-    val page = text.substring(pageStartIndex, cursor + word.length + 1)
-    pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
-    line = 1
-    column = 0
-    page.trimEnd().let {
-      if (it.isNotEmpty()) {
-        pages += page.trimEnd()
+      val word = text.substring(cursor, index)
+      val columnCount = measureWord(word)
+      if (text[index] == ' ') {
+        if (column + columnCount > lineWidth) {
+          if (line == 14) {
+            val page = text.substring(pageStartIndex, cursor)
+            pageStartIndex = cursor
+            line = 1
+            column = columnCount + spaceWidth // + for whitespace.
+            addTrimmedPage(page)
+          } else {
+            line++
+            column = columnCount + spaceWidth // + for whitespace.
+          }
+        } else if (column + columnCount == lineWidth) {
+          if (line == 14) {
+            val page = text.substring(pageStartIndex, cursor + word.length + 1)
+            pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
+            line = 1
+            column = 0
+            addTrimmedPage(page)
+          } else {
+            line++
+            column = 0
+          }
+        } else {
+          column += columnCount + spaceWidth // + for whitespace.
+        }
+        cursor += word.length + 1 // + 1 for whitespace.
+      } else {
+        if (column + columnCount == 0 && line == 1) {
+          // Remove new lines at the start of pages.
+          pageStartIndex += 1
+        } else if (column + columnCount > lineWidth) {
+          if (line == 14) {
+            val page = text.substring(pageStartIndex, cursor)
+            pageStartIndex = cursor
+            // The word carries over onto next page and then has a new line, so we are now on line 2.
+            line = 2
+            column = 0
+            addTrimmedPage(page)
+          } else if (line == 13) {
+            val page = text.substring(pageStartIndex, cursor + word.length + 1)
+            pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
+            line = 1
+            column = 0
+            addTrimmedPage(page)
+          } else {
+            line += 2
+            column = 0
+          }
+        } else if (column + columnCount == lineWidth) {
+          if (line == 14) {
+            val page = text.substring(pageStartIndex, cursor + word.length + 1)
+            pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
+            line = 1
+            column = 0
+            addTrimmedPage(page)
+          } else {
+            line++
+            column = 0
+          }
+        } else {
+          if (line == 14) {
+            val page = text.substring(pageStartIndex, cursor + word.length + 1)
+            pageStartIndex = cursor + word.length + 1 // + 1 for whitespace.
+            line = 1
+            column = 0
+            addTrimmedPage(page)
+          } else {
+            line++
+            column = 0
+          }
+        }
+        cursor += word.length + 1 // + 1 for whitespace.
       }
-    }
-  } else {
-    line++
-    column = 0
-  }
-} else {
-  column += columnCount + spaceWidth // + for whitespace.
-}
-cursor += word.length + 1 // + 1 for whitespace.
+    } while (true)
+    return pages
   }
 }
 
-private fun pages(text: String, lineWidth: Int): List<String> {
+private fun pages(text: String, lineWidth: Int, pageMaxCharacterCount: Int): List<String> {
   val pages = mutableListOf<String>()
   var line = 1
   var column = 0
   var cursor = 0
   var pageStartIndex = 0
+  var pageCharacterCount = 0
   do {
     val index = text.indexOfAny(whitespace, cursor)
     if (index == -1) {
       val word = text.substring(cursor)
       var sum = 0
       var wordIndex = 0
+      var wordCharacterCount = 0
       var wordOverflowsLine = false
+      var wordOverflowsPage = false
       while (wordIndex < word.length) {
+        wordCharacterCount++
         val codePoint = word.codePointAt(wordIndex)
         val codePointColumnCount = codePoint.columnCount()
         val nextSum = sum + codePointColumnCount
+        if (wordCharacterCount > pageMaxCharacterCount) {
+          if (!wordOverflowsPage) {
+            wordOverflowsPage = true
+            if (column > 0) {
+              if (line == 14) {
+                val pageEndIndex = cursor
+                // TODO
+              }
+            }
+          }
+        }
         if (nextSum > lineWidth) {
           if (!wordOverflowsLine) {
             wordOverflowsLine = true
