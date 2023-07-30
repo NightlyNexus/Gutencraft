@@ -33,7 +33,7 @@ fun foo(text: String, lineMaxColumnLength: Int, maxLines: Int) {
   }
 }
 
-private fun pages(text: String, lineWidth: Int, pageMaxCharacterCount: Int): List<String> {
+private fun pages(text: String, lineMaxColumnCount: Int, pageMaxCharacterCount: Int): List<String> {
   val pages = mutableListOf<String>()
   var cursor = 0
   var currentLine = 1
@@ -47,12 +47,22 @@ private fun pages(text: String, lineWidth: Int, pageMaxCharacterCount: Int): Lis
       var wordIndex = 0
       var wordColumnCount = 0
       var wordCharacterCount = 0
+      var wordOverflowsPageIndex = -1
+      var wordOverflowsLineIndex = -1
       while (wordIndex != word.length) {
         wordCharacterCount++
         val codePoint = word.codePointAt(wordIndex)
         val codePointColumnCount = codePoint.columnCount()
         if (currentPageCharacterCount + wordCharacterCount > pageMaxCharacterCount) {
-          
+          wordOverflowsPageIndex = wordIndex
+          TODO()
+        }
+        if (wordColumnCount > lineMaxColumnCount) {
+          // Word takes up more than a line. Start fitting it on the previous line now.
+          if 
+        }
+        if (wordColumnCount + currentLinkColumnCount > lineMaxColumnCount) {
+          wordOverflowsLineIndex = wordIndex
         }
 
         wordIndex += codePoint.charCount()
