@@ -50,6 +50,8 @@ private fun pages(text: String, lineWidth: Int): List<String> {
             pageStartIndex = pageEndIndex
             line = 1
             column = 0
+            // No need to check for an empty page,
+            // since this page will necessarily include the line containing the start of this word.
             pages += page
           } else {
             line++
