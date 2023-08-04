@@ -1,12 +1,12 @@
 fun pagesJava(text: String): List<String> {
-  return pagesJava(text, lineMaxColumnCount = 114, maxLines = 14)
+  return pagesJava(text, lineMaxColumnCount = 114, pageMaxLines = 14)
 }
 
 fun pagesBedrock(text: String): List<String> {
-  return pagesJava(text, lineMaxColumnCount = 122, maxLines = 14)
+  return pagesJava(text, lineMaxColumnCount = 122, pageMaxLines = 14)
 }
 
-private fun pagesJava(text: String, lineMaxColumnCount: Int, maxLines: Int): List<String> {
+private fun pagesJava(text: String, lineMaxColumnCount: Int, pageMaxLines: Int): List<String> {
   val pages = mutableListOf<String>()
   var cursor = 0
   var pageStartIndex = 0
@@ -37,7 +37,7 @@ private fun pagesJava(text: String, lineMaxColumnCount: Int, maxLines: Int): Lis
       val lineColumnCountNext = lineColumnCount + spaceColumnCount
       if (lineColumnCountNext > lineMaxColumnCount) {
         lineColumnCount = 0
-        if (line == maxLines) {
+        if (line == pageMaxLines) {
           val page = text.substring(pageStartIndex, lastWordEndIndex)
           if (page.isNotEmpty()) {
             pages += page
@@ -71,7 +71,7 @@ private fun pagesJava(text: String, lineMaxColumnCount: Int, maxLines: Int): Lis
         inWord = false
         lastWordEndIndex = cursor
       }
-      if (line == maxLines) {
+      if (line == pageMaxLines) {
         val page = text.substring(pageStartIndex, lastWordEndIndex)
         if (page.isNotEmpty()) {
           pages += page
@@ -98,7 +98,7 @@ private fun pagesJava(text: String, lineMaxColumnCount: Int, maxLines: Int): Lis
     val wordColumnCountNext = wordColumnCount + columnCount
     if (wordColumnCountNext > lineMaxColumnCount) {
       lastWordEndIndex = cursor
-      if (line == maxLines) {
+      if (line == pageMaxLines) {
         val page = text.substring(pageStartIndex, cursor)
         // No need to check for an empty page,
         // since this page will necessarily include the line containing the start of this word.
@@ -118,7 +118,7 @@ private fun pagesJava(text: String, lineMaxColumnCount: Int, maxLines: Int): Lis
     wordColumnCount = wordColumnCountNext
     val lineColumnCountNext = lineColumnCount + columnCount
     if (lineColumnCountNext > lineMaxColumnCount) {
-      if (line == maxLines) {
+      if (line == pageMaxLines) {
         val page = text.substring(pageStartIndex, lastWordEndIndex)
         if (page.isNotEmpty()) {
           pages += page
