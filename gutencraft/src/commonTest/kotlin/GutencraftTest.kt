@@ -120,9 +120,31 @@ class GutencraftTest {
     )
   }
 
-  @Test fun noBlankPages() {
-    var text = " "
+  @Test fun whitespace() {
+    var text = "a "
     var result = pagesJava(text)
+    assertEquals(listOf("a"), result)
+
+    text = "\n".repeat(13) + "i" + " ".repeat(28) + "i"
+    result = pagesJava(text)
+    assertEquals(listOf("i" + " ".repeat(28) + "i"), result)
+
+    text = "a\n".repeat(13) + "i" + " ".repeat(29) + "i"
+    result = pagesJava(text)
+    assertEquals(listOf("a\n".repeat(13) + "i", "i"), result)
+
+    text = "a\n".repeat(13) + "i" + " ".repeat(30) + "i"
+    result = pagesJava(text)
+    assertEquals(listOf("a\n".repeat(13) + "i", " i"), result)
+  }
+
+  @Test fun noBlankPages() {
+    var text = ""
+    var result = pagesJava(text)
+    assertEquals(listOf(), result)
+
+    text = " "
+    result = pagesJava(text)
     assertEquals(listOf(), result)
 
     text = " ".repeat(100)
@@ -133,9 +155,29 @@ class GutencraftTest {
     result = pagesJava(text)
     assertEquals(listOf(" ".repeat(100) + "a"), result)
 
+    text = " ".repeat(405) + "a"
+    result = pagesJava(text)
+    assertEquals(listOf("a"), result)
+
+    text = " ".repeat(406) + "a"
+    result = pagesJava(text)
+    assertEquals(listOf("a"), result)
+
     text = " ".repeat(407) + "a"
     result = pagesJava(text)
     assertEquals(listOf(" a"), result)
+
+    text = " ".repeat(29) + "\n".repeat(13) + "a"
+    result = pagesJava(text)
+    assertEquals(listOf("a"), result)
+
+    text = "\n".repeat(14) + "a"
+    result = pagesJava(text)
+    assertEquals(listOf("a"), result)
+
+    text = "\n".repeat(15) + "a"
+    result = pagesJava(text)
+    assertEquals(listOf("a"), result)
 
     text =
       "a".repeat(100) + "\n".repeat(100) + "b".repeat(1) + " ".repeat(1000) + "c".repeat(1) + " ".repeat(
@@ -148,10 +190,103 @@ class GutencraftTest {
   }
 
   @Test fun longWordOverflowsLastLine() {
-    val text = "a\n".repeat(13) + " " + "i".repeat(58)
-    val result = pagesJava(text)
+    var text = "a\n".repeat(13) + " " + "i".repeat(57)
+    var result = pagesJava(text)
     assertEquals(
-      listOf("a\n".repeat(13) + " ", "i".repeat(58)),
+      listOf("a\n".repeat(12) + "a", "i".repeat(57)),
+      result
+    )
+
+    text = "a\n".repeat(12) + "a " + "i".repeat(58)
+    result = pagesJava(text)
+    assertEquals(
+      listOf("a\n".repeat(12) + "a " + "i".repeat(57), "i"),
+      result
+    )
+
+    text = "a\n".repeat(13) + " " + "i".repeat(58)
+    result = pagesJava(text)
+    assertEquals(
+      listOf("a\n".repeat(12) + "a", "i".repeat(58)),
+      result
+    )
+
+    text = "a\n".repeat(13) + "i".repeat(57)
+    result = pagesJava(text)
+    assertEquals(
+      listOf("a\n".repeat(13) + "i".repeat(57)),
+      result
+    )
+
+    text = "a\n".repeat(13) + "i".repeat(58)
+    result = pagesJava(text)
+    assertEquals(
+      listOf("a\n".repeat(13) + "i".repeat(57), "i"),
+      result
+    )
+  }
+
+  @Test fun indentOnNewPage() {
+    var text = " " + "i".repeat(5)
+    var result = pagesJava(text)
+    assertEquals(
+      listOf(" " + "i".repeat(5)),
+      result
+    )
+
+    text = " " + "i".repeat(57)
+    result = pagesJava(text)
+    assertEquals(
+      listOf(" " + "i".repeat(57)),
+      result
+    )
+
+    text = "a\n".repeat(13) + " ".repeat(4) + "i".repeat(55)
+    result = pagesJava(text)
+    assertEquals(
+      listOf("a\n".repeat(12) + "a", "i".repeat(55)),
+      result
+    )
+
+    text = "a\n".repeat(13) + " ".repeat(4) + "i".repeat(58)
+    result = pagesJava(text)
+    assertEquals(
+      listOf("a\n".repeat(12) + "a", "i".repeat(58)),
+      result
+    )
+
+    text = "a\n".repeat(13) + " ".repeat(30) + "i".repeat(55)
+    result = pagesJava(text)
+    assertEquals(
+      listOf("a\n".repeat(12) + "a", " " + "i".repeat(55)),
+      result
+    )
+
+    text = "a\n".repeat(13) + " ".repeat(30) + "i".repeat(58)
+    result = pagesJava(text)
+    assertEquals(
+      listOf("a\n".repeat(12) + "a", " " + "i".repeat(58)),
+      result
+    )
+
+    text = "a\n".repeat(14) + " ".repeat(4) + "i".repeat(5)
+    result = pagesJava(text)
+    assertEquals(
+      listOf("a\n".repeat(13) + "a", " ".repeat(4) + "i".repeat(5)),
+      result
+    )
+
+    text = "a\n".repeat(14) + " ".repeat(4) + "i".repeat(56)
+    result = pagesJava(text)
+    assertEquals(
+      listOf("a\n".repeat(13) + "a", " ".repeat(4) + "i".repeat(56)),
+      result
+    )
+
+    text = "a\n".repeat(14) + " ".repeat(4) + "i".repeat(58)
+    result = pagesJava(text)
+    assertEquals(
+      listOf("a\n".repeat(13) + "a", " ".repeat(4) + "i".repeat(58)),
       result
     )
   }

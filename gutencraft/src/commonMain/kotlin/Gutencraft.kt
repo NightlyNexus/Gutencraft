@@ -33,7 +33,11 @@ private fun pages(text: String, lineWidth: Int): List<String> {
                 pageStartIndex = pageEndIndex
                 line = 1
                 column = 0
-                pages += page
+                page.trimEnd().let {
+                  if (it.isNotEmpty()) {
+                    pages += page.trimEnd()
+                  }
+                }
               } else {
                 line++
                 column = 0
