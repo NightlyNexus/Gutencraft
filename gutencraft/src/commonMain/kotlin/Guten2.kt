@@ -1,4 +1,4 @@
-fun foo(text: String, lineMaxColumnLength: Int, maxLines: Int) {
+/*fun foo(text: String, lineMaxColumnLength: Int, maxLines: Int) {
   val pages = mutableListOf<String>()
   var cursor = 0
   var currentLine = 1
@@ -318,7 +318,7 @@ private fun pages(text: String, lineMaxColumnCount: Int, pageMaxCharacterCount: 
     }
   } while (true)
   return pages
-}
+}*/
 
 private val wordEndChars = charArrayOf(' ', '\n')
 private const val spaceColumnCount = 4
