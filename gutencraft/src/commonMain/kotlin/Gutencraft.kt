@@ -477,8 +477,6 @@ private fun Int.columnCountInternal(): Int {
   }
 }
 
-private val whitespace = charArrayOf(' ', '\n')
-
 // https://minecraft.fandom.com/wiki/Language#Font
 
 private val asciiBackup = """
