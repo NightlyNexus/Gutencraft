@@ -1,6 +1,6 @@
 fun command(pages: List<String>): String {
   val command = StringBuilder()
-    .append("/give @p written_book{pages:[")
+    .append("/give @p written_book[written_book_content={pages:[")
   for (i in pages.indices) {
     val page = pages[i]
     command
@@ -11,7 +11,7 @@ fun command(pages: List<String>): String {
       command.append(',')
     }
   }
-  command.append("],title:\"<Insert book name>\",author:\"<Insert author>\"}")
+  command.append("],title:\"<Insert book name>\",author:\"<Insert author>\"}]")
   return command.toString()
 }
 
