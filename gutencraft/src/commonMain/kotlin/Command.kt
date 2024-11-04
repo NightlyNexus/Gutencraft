@@ -4,9 +4,9 @@ fun command(pages: List<String>): String {
   for (i in pages.indices) {
     val page = pages[i]
     command
-      .append("'{\"text\":")
-      .appendDoubleJson(page)
-      .append("}'")
+      .append("'{\"text\":\"")
+      .appendMinecraftJson(page)
+      .append("\"}'")
     if (i != pages.size - 1) {
       command.append(',')
     }
@@ -15,24 +15,9 @@ fun command(pages: List<String>): String {
   return command.toString()
 }
 
-private fun StringBuilder.appendDoubleJson(value: String) = apply {
-  append('"')
-  appendWithEscapedEscapes(StringBuilder().appendJson(value))
-  append('"')
-}
-
-private fun StringBuilder.appendWithEscapedEscapes(value: CharSequence) = apply {
-  for (i in value.indices) {
-    val c = value[i]
-    if (c == '\\') {
-      append("\\\\")
-    } else {
-      append(c)
-    }
-  }
-}
-
-private fun StringBuilder.appendJson(value: CharSequence) = apply {
+// Minecraft wants double escapes but wants a single escape for the single quotation mark.
+// THIS IS MADE-UP MINECRAFT JSON. NOT REAL JSON.
+private fun StringBuilder.appendMinecraftJson(value: CharSequence) = apply {
   val replacements = REPLACEMENT_CHARS
   var last = 0
   val length = value.length
@@ -42,15 +27,12 @@ private fun StringBuilder.appendJson(value: CharSequence) = apply {
     if (c.code < 128) {
       replacement = replacements[c.code]
       if (replacement == null) {
-        if (c.code <= 0x1f) {
-          throw UnsupportedOperationException("We need String.format(\"\\\\u%04x\", i).")
-        }
         continue
       }
     } else if (c == '\u2028') {
-      replacement = "\\u2028"
+      replacement = "\\\\u2028"
     } else if (c == '\u2029') {
-      replacement = "\\u2029"
+      replacement = "\\\\u2029"
     } else {
       continue
     }
@@ -66,15 +48,30 @@ private fun StringBuilder.appendJson(value: CharSequence) = apply {
 }
 
 private val REPLACEMENT_CHARS: Array<String?> = arrayOfNulls<String>(128).apply {
-  /*for (i in 0..0x1f) {
-    this[i] = String.format("\\u%04x", i)
-  }*/
-  this['"'.code] = "\\\""
-  this['\\'.code] = "\\\\"
-  this['\t'.code] = "\\t"
-  this['\b'.code] = "\\b"
-  this['\n'.code] = "\\n"
-  this['\r'.code] = "\\r"
+  this[0] = "\\\\u0000"
+  this[1] = "\\\\u0001"
+  this[2] = "\\\\u0002"
+  this[3] = "\\\\u0003"
+  this[4] = "\\\\u0004"
+  this[5] = "\\\\u0005"
+  this[6] = "\\\\u0006"
+  this[7] = "\\\\u0007"
+  this[8] = "\\\\u0008"
+  this[9] = "\\\\u0009"
+  this[10] = "\\\\u000a"
+  this[11] = "\\\\u000b"
+  this[12] = "\\\\u000c"
+  this[13] = "\\\\u000d"
+  this[14] = "\\\\u000e"
+  this[15] = "\\\\u000f"
+  this['"'.code] = "\\\\\""
+  this['\\'.code] = "\\\\\\\\"
+  this['\t'.code] = "\\\\t"
+  this['\b'.code] = "\\\\b"
+  this['\n'.code] = "\\\\n"
+  this['\r'.code] = "\\\\r"
   // Kotlin does not support '\f' so we have to use unicode escape.
-  this['\u000C'.code] = "\\f"
+  this['\u000C'.code] = "\\\\f"
+  // THIS IS MADE-UP MINECRAFT JSON. NOT REAL JSON.
+  this['\''.code] = "\\'"
 }

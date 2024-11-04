@@ -16,7 +16,7 @@ class CommandTest {
   @Test fun escapes() {
     val pages = pagesJava("begin... \\\nf\" ' ...end")
     assertEquals(
-      """/give @p written_book[written_book_content={pages:['{"text":"begin... \\\\\\nf\\" ' ...end"}'],title:"<Insert book name>",author:"<Insert author>"}]""".trimMargin(),
+      """/give @p written_book[written_book_content={pages:['{"text":"begin... \\\\\\nf\\" \' ...end"}'],title:"<Insert book name>",author:"<Insert author>"}]""".trimMargin(),
       command(pages)
     )
   }
